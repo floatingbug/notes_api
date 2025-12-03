@@ -51,3 +51,27 @@ const doc = {
     createdAt: Date.now(),
     updatedAt: Date.now(),
 };
+```
+
+## 3. Model Layer (Database Only)
+
+The model layer performs **pure database operations** using the MongoDB native driver.  
+It is intentionally simple and contains no business logic.
+
+### Responsibilities
+- Execute `findOne`, `insertOne`, `updateOne`, `deleteOne`, etc.
+- Receive fully prepared `{ filter }`, `{ doc }`, `{ filter, update }` objects
+- Return raw database results to the service layer
+
+### Must *not* do
+- Build filters
+- Create documents
+- Execute business logic
+- Access HTTP request data
+
+### Example Model Function
+```js
+async function getUser({ filter }) {
+    return await db.collection("users").findOne(filter);
+}
+```
